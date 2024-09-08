@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
   void onCategoryClicked(CategoryModel category) {
     print("Category clicked: ${category.name}");
     setState(() {
