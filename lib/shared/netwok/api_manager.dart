@@ -33,7 +33,7 @@ class APImanager {
 // https://newsapi.org/v2/top-headlines/sources?apiKey=
   static Future<SourceResponce> getSourse(String category) async {
     Uri url = Uri.https("newsapi.org", "/v2/top-headlines/sources",
-        {"apiKey": "dc3d106e730c4256b8c275d9da58d090","category": category});
+        {"apiKey": "9365513b6c0f47dab2db80306e36c6f1","category": category});
     http.Response resposne = await http.get(url);
     Map<String, dynamic> json = jsonDecode(resposne.body);
 
@@ -44,9 +44,12 @@ class APImanager {
     Uri url =
     Uri.https("newsapi.org", "/v2/everything", {"sources": sourceId});
     var resposne = await http
-        .get(url, headers: {"x-api-key": "dc3d106e730c4256b8c275d9da58d090"});
+        .get(url, headers: {"x-api-key": "9365513b6c0f47dab2db80306e36c6f1"});
 
     var json = jsonDecode(resposne.body);
     return NewsResponse.fromJson(json);
   }
+
 }
+
+

@@ -37,6 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: any
   cached_network_image: any
+  flutter_bloc: any
+  bloc: any
+  provider: ^6.1.2
+  win32: ^5.0.0
+  collection: ^1.16.0
 
 
 dev_dependencies:

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/category_model.dart';
+import '../../models/category_model.dart';
+import '../source/data.dart';
 import 'category_item.dart';
 
 class CategoryTab extends StatelessWidget {
-  Function onClick;
+  final Function(CategoryModel) onClick;
 
   CategoryTab({super.key, required this.onClick});
 
@@ -27,6 +28,8 @@ class CategoryTab extends StatelessWidget {
                 return InkWell(
                   onTap: () {
                     onClick(allCategories[index]);
+                    print("Category tapped: ${allCategories[index].name}");
+
                   },
                   child: CategoryItem(
                     model: allCategories[index],
