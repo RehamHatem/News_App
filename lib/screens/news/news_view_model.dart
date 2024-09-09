@@ -6,11 +6,11 @@ import '../../models/NewsResponse.dart';
 class NewsViewModel extends ChangeNotifier{
   List<Articles>?News;
   String? errorMesaage="";
-  void getNews(String sourceId) async{
+  void getNews(String sourceId,int page) async{
     News=null;
     errorMesaage=null;
     notifyListeners();
-    var response= await APImanager.getNews(sourceId);
+    var response= await APImanager.getNews(sourceId,page);
     try{
       if (response.status=='error'){
         errorMesaage="server error";

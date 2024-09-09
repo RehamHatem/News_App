@@ -19,9 +19,36 @@ class SourceTab extends StatefulWidget {
 class _SourceTabState extends State<SourceTab> {
   int selectedindex=0;
   NewsViewModel viewModel=NewsViewModel();
+  int page=1;
+  late ScrollController scrollController;
   void initState() {
     super.initState();
-    viewModel.getNews(widget.sources[selectedindex].id ?? "");
+    viewModel.getNews(widget.sources[selectedindex].id ?? "",page);
+    scrollController=ScrollController();
+    scrollController.addListener((){
+      if(scrollController.position.atEdge){
+        if(scrollController.offset!=0 ){
+          // setState(() {
+          //   page++;
+          //   scrollController.jumpTo(0);
+          //
+          // });
+          setState(() {
+            page++;
+            scrollController.animateTo(0, duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+            viewModel.getNews(widget.sources[selectedindex].id ?? "", page);
+          });
+        }
+      }
+    });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    scrollController.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -37,7 +64,7 @@ class _SourceTabState extends State<SourceTab> {
                 onTap: (value) {
                   setState(() {
                     selectedindex=value;
-                    viewModel.getNews(widget.sources[selectedindex].id??"");
+                    viewModel.getNews(widget.sources[selectedindex].id??"",page);
                     // viewModel.News;
 
                   });
@@ -63,6 +90,7 @@ class _SourceTabState extends State<SourceTab> {
                   );
                 } else {
                   return ListView.separated(
+                    controller: scrollController,
                     separatorBuilder: (context, index) {
                       return SizedBox(height: 10);
                     },

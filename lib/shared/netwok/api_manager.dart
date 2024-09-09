@@ -41,9 +41,9 @@ class APImanager {
     return SourceResponce.fromJson(json);
   }
 
-  static Future<NewsResponse> getNews(String sourceId) async {
+  static Future<NewsResponse> getNews(String sourceId,int page) async {
     Uri url =
-    Uri.https("newsapi.org", "/v2/everything", {"sources": sourceId});
+    Uri.https("newsapi.org", "/v2/everything", {"sources": sourceId,"page":page.toString()});
     var resposne = await http
         .get(url, headers: {"x-api-key": "9365513b6c0f47dab2db80306e36c6f1"});
 
