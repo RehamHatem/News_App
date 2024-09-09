@@ -17,24 +17,23 @@ class DataTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     viewModel.getSources(categoryId);
-    return BlocBuilder<SourceViewModel,SourceStates>(
-        // bloc: viewModel,
+    return BlocProvider(
+      create:(context) => viewModel ,
+      child: BlocBuilder<SourceViewModel, SourceStates>(
+        bloc:viewModel ,
         builder: (context, state) {
-          if(state is SourceLoadingState){
+          if (state is SourceLoadingState) {
             return Center(child: CircularProgressIndicator());
-          }
-          else if(state is SourceErrorState){
-            return Text("something went wtong");
-          }
-          else if(state is SourceSuccessState){
-            return SourceTab(sources: state.sourcesList,);
-
+          } else if (state is SourceErrorState) {
+            return Center(child: Text("Error: ${state.message}"));
+          } else if (state is SourceSuccessState) {
+            return SourceTab(sources: state.sourcesList);
           }
           return Container();
-
-        },);
+        },
+      ),
+    );
 
 
 

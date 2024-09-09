@@ -36,6 +36,7 @@ class APImanager {
         {"apiKey": "9365513b6c0f47dab2db80306e36c6f1","category": category});
     http.Response resposne = await http.get(url);
     Map<String, dynamic> json = jsonDecode(resposne.body);
+    print("API Response: $json");
 
     return SourceResponce.fromJson(json);
   }
@@ -47,6 +48,7 @@ class APImanager {
         .get(url, headers: {"x-api-key": "9365513b6c0f47dab2db80306e36c6f1"});
 
     var json = jsonDecode(resposne.body);
+    print("API Response: $json");
     return NewsResponse.fromJson(json);
   }
 

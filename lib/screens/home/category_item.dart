@@ -13,30 +13,25 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return GestureDetector(
-      onTap: () {
-        print("Category tappedddd: ${model.name}");
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            color: model.color,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(28),
-                topRight: Radius.circular(28),
-                bottomLeft: index.isOdd ? Radius.circular(28) : Radius.zero,
-                bottomRight: index.isEven ? Radius.circular(28) : Radius.zero)),
-        child: Column(
-          children: [
-            Expanded(child: Image.asset(model.image)),
-            Container(
-              margin: EdgeInsets.only(bottom: 18),
-              child: Text(
-                model.name,
-                style: TextStyle(color: Colors.white, fontSize: 22),
-              ),
+    return Container(
+      decoration: BoxDecoration(
+          color: model.color,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(28),
+              topRight: Radius.circular(28),
+              bottomLeft: index.isOdd ? Radius.circular(28) : Radius.zero,
+              bottomRight: index.isEven ? Radius.circular(28) : Radius.zero)),
+      child: Column(
+        children: [
+          Expanded(child: Image.asset(model.image)),
+          Container(
+            margin: EdgeInsets.only(bottom: 18),
+            child: Text(
+              model.name,
+              style: TextStyle(color: Colors.white, fontSize: 22),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

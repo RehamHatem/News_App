@@ -9,6 +9,7 @@ import '../screens/home/category_tab.dart';
 import '../screens/source/data.dart';
 import '../screens/source/source_view_model.dart';
 import 'appBar.dart';
+import 'drawer.dart';
 import 'editAppBar.dart';
 class HomeScreen extends StatefulWidget {
   static const String routeName = "home";
@@ -32,38 +33,39 @@ class _HomeScreenState extends State<HomeScreen> {
     print("Category clicked: ${category.name}");
     setState(() {
       selectedCategory = category;
-
     });
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      drawer: _messageSelected ? Drawer() : null,
-      appBar: _messageSelected
-          ? MainAppBar(context, appBarChange)
-          : EditedAppBar(context, appBarChange),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              "assets/images/pattern.png",
-              fit: BoxFit.fill,
-            ),
-          ),
-          selectedCategory == null
-              ? CategoryTab(onClick: onCategoryClicked)
-              : BlocProvider(
-            create: (context) => SourceViewModel(),
-            child: DataTab(
-              categoryId: selectedCategory!.id,
-            ),
-          ),
-        ],
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          image:
+          DecorationImage(image: AssetImage("assets/images/pattern.png"))),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        drawer: _messageSelected ?  DrawerTab(
+          onClick: onDrawerClick,
+        ) : null,
+        appBar: _messageSelected
+            ? MainAppBar(context, appBarChange)
+            : EditedAppBar(context, appBarChange),
+        body: selectedCategory == null
+            ? CategoryTab(onClick: onCategoryClicked)
+            : DataTab(
+          categoryId: selectedCategory!.id,
+        ),
       ),
     );
+  }
+  onDrawerClick(id) {
+    if (id == DrawerTab.CATEGORY_ID) {
+      selectedCategory = null;
+      Navigator.pop(context);
+    } else if (id == DrawerTab.SETTINGS_ID) {}
+    setState(() {});
   }
 }
 

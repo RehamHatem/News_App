@@ -13,13 +13,19 @@ class SourceTab extends StatefulWidget {
 
   @override
   State<SourceTab> createState() => _SourceTabState();
+
 }
 
 class _SourceTabState extends State<SourceTab> {
   int selectedindex=0;
   NewsViewModel viewModel=NewsViewModel();
+  void initState() {
+    super.initState();
+    viewModel.getNews(widget.sources[selectedindex].id ?? "");
+  }
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (context) => viewModel,
       child: Column(
@@ -31,31 +37,44 @@ class _SourceTabState extends State<SourceTab> {
                 onTap: (value) {
                   setState(() {
                     selectedindex=value;
+                    viewModel.getNews(widget.sources[selectedindex].id??"");
+                    // viewModel.News;
 
                   });
                 },
-                tabs: widget.sources.map((e) => Tab(child: SourceItem(isSelected:widget.sources.elementAt(selectedindex)==e ,sources:e ),)).toList(),
+                tabs: widget.sources.map((e) => Tab(
+                  child: SourceItem
+                    (isSelected:widget.sources.elementAt(selectedindex)==e
+                      ,sources:e ),)).toList(),
               )
           ),
-          Consumer<NewsViewModel>(builder: (context, viewModel, child) {
-            if (viewModel.News==null){
-              Center(child: CircularProgressIndicator());
-            }
-            else{
-              Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10,);
-                        },
-                        itemBuilder: (context, index) {
-                        return NewsItem(artical:viewModel.News![index]);
-                      },itemCount: viewModel.News!.length,),
-                    );
-
-            }
-            return Container();
-
-          },)
+          Expanded(
+            child: Consumer<NewsViewModel>(
+              builder: (context, viewModel, child) {
+                if (viewModel.News == null) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.green,
+                    ),
+                  );
+                } else if (viewModel.News!.isEmpty) {
+                  return Center(
+                    child: Text("No News Available"),
+                  );
+                } else {
+                  return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 10);
+                    },
+                    itemBuilder: (context, index) {
+                      return NewsItem(artical: viewModel.News![index]);
+                    },
+                    itemCount: viewModel.News!.length,
+                  );
+                }
+              },
+            ),
+          ),
 
 
           // FutureBuilder(future: APImanager.getNews(widget.sources[selectedindex].id??""), builder: (context, snapshot) {
